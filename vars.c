@@ -1,12 +1,13 @@
 #include "shell.h"
 
 /**
- * _func - test if current char in buffer is a chain delimeter
- * info: the parameter struct
- * buf: the char buffer
- * p: address of current position in buf
+ * is_chain - Aprogram to test if current character
+ * @info: the parameter structure of the func used
+ * @buf: the char buffer of the use insert
+ * @p: address of current position in buffer size of the
+ * memory adress
  *
- * Return: 1 if chain delimeter, 0 otherwise
+ * Return: 1 if chain del, 0 otherwise no or on fails
  */
 int is_chain(info_t *info, char *buf, size_t *p)
 {
@@ -24,9 +25,9 @@ int is_chain(info_t *info, char *buf, size_t *p)
 		j++;
 		info->cmd_buf_type = CMD_AND;
 	}
-	else if (buf[j] == ';') /* found end of this command */
+	else if (buf[j] == ';')
 	{
-		buf[j] = 0; /* replace semicolon with null */
+		buf[j] = 0;
 		info->cmd_buf_type = CMD_CHAIN;
 	}
 	else
@@ -36,14 +37,14 @@ int is_chain(info_t *info, char *buf, size_t *p)
 }
 
 /**
- * _func - checks we should continue chaining based on last status
- * info: the parameter struct
- * buf: the char buffer
- * p: address of current position in buf
- * i: starting position in buf
- * len: length of buf
+ * check_chain - aprogram to checks the chaining of the last status
+ * @info: the parameter structure of the program to vverify
+ * @buf: the char buffer of the user
+ * @p: address of current position in buffer function
+ * @i: starting position in buffer adrees of the user
+ * @len: length of buffer adress inserted by user
  *
- * Return: Void
+ * Return: Void to return
  */
 void check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
 {
@@ -70,8 +71,8 @@ void check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
 }
 
 /**
- * _func - replaces an aliases in the tokenized string
- * info: the parameter struct
+ * replace_alias - aprogram to repalce an alias str
+ * @info: the parameter structure of the func used  by user
  *
  * Return: 1 if replaced, 0 otherwise
  */
@@ -99,8 +100,8 @@ int replace_alias(info_t *info)
 }
 
 /**
- * _func - replaces vars in the tokenized string
- * info: the parameter struct
+ * replace_vars - afunction to stand for var i tokenz
+ * @info: the parameter structure of the function pro
  *
  * Return: 1 if replaced, 0 otherwise
  */
@@ -140,9 +141,9 @@ int replace_vars(info_t *info)
 }
 
 /**
- * _func - replaces string
- * old: address of old string
- * new: new string
+ * replace_string - replaces string by the function of the user
+ * @old: address of old string to be user inserted
+ * @new: new string by user inputed
  *
  * Return: 1 if replaced, 0 otherwise
  */

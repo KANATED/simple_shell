@@ -1,39 +1,40 @@
 #include "shell.h"
 
 /**
- * _func - converts a string to an integer
- * s: string converted
- * Return: 0 if no numbers in string, converted number otherwise
+ * _erratoi - aommand line to converts a string to an integer
+ * @s: string converted into an integer
+ * Return: 0 if verted number otherwise
  *       -1 on error
  */
 int _erratoi(char *s)
 {
-	int i = 0;
-	unsigned long int result = 0;
+	int j = 0;
+	unsigned long int res = 0;
 
 	if (*s == '+')
-		s++;  /* TODO: why does this make main return 255? */
-	for (i = 0;  s[i] != '\0'; i++)
+		s++;
+	for (j = 0;  s[j] != '\0'; j++)
 	{
-		if (s[i] >= '0' && s[i] <= '9')
+		if (s[j] >= '0' && s[j] <= '9')
 		{
-			result *= 10;
-			result += (s[i] - '0');
-			if (result > INT_MAX)
+			res *= 10;
+			res += (s[j] - '0');
+			if (res > INT_MAX)
 				return (-1);
 		}
 		else
 			return (-1);
 	}
-	return (result);
+	return (res);
 }
 
 /**
- * _func - prints error message
- * info: parameter & return info struct
- * estr: string containing error type
- * Return: 0 if no numbers in string, converted number otherwise
- *        -1 on error
+ * print_error - acommand line given to prints error message
+ * @info: parameter & return info structure of the given
+ * func
+ * @estr: string that holds an error type
+ * Return: 0 if no numbers inputed in string, converted number otherwise
+ *        -1 on error as return
  */
 void print_error(info_t *info, char *estr)
 {
@@ -47,16 +48,16 @@ void print_error(info_t *info, char *estr)
 }
 
 /**
- * _func- prints decimal (integer) 
- * input: input
- * fd:  filedescriptor to write to
+ * print_d - acommand line given to prints decimal(integer)
+ * @input: insert a number
+ * @fd:  filedescriptor of the func to write to
  *
- * Return: number of characters printed
+ * Return: number of characters printed to act as return
  */
 int print_d(int input, int fd)
 {
 	int (*__putchar)(char) = _putchar;
-	int i, count = 0;
+	int j, count = 0;
 	unsigned int _abs_, current;
 
 	if (fd == STDERR_FILENO)
@@ -70,14 +71,14 @@ int print_d(int input, int fd)
 	else
 		_abs_ = input;
 	current = _abs_;
-	for (i = 1000000000; i > 1; i /= 10)
+	for (j = 1000000000; j > 1; j /= 10)
 	{
-		if (_abs_ / i)
+		if (_abs_ / j)
 		{
-			__putchar('0' + current / i);
+			__putchar('0' + current / j);
 			count++;
 		}
-		current %= i;
+		current %= j;
 	}
 	__putchar('0' + current);
 	count++;
@@ -86,12 +87,12 @@ int print_d(int input, int fd)
 }
 
 /**
- * _func - converter function, a clone of itoa
- * num: number
- * base: base
- * flags: argument flags
+ * convert_number - acommand line given to convert function, a clone of itoa
+ * @num: number to be converted
+ * @base: base of the number inserted
+ * @flags: argument flags of the potential structure
  *
- * Return: string
+ * Return: string to return
  */
 char *convert_number(long int num, int base, int flags)
 {
@@ -99,11 +100,11 @@ char *convert_number(long int num, int base, int flags)
 	static char buffer[50];
 	char sign = 0;
 	char *ptr;
-	unsigned long n = num;
+	unsigned long v = num;
 
 	if (!(flags & CONVERT_UNSIGNED) && num < 0)
 	{
-		n = -num;
+		v = -num;
 		sign = '-';
 
 	}
@@ -112,9 +113,9 @@ char *convert_number(long int num, int base, int flags)
 	*ptr = '\0';
 
 	do	{
-		*--ptr = array[n % base];
-		n /= base;
-	} while (n != 0);
+		*--ptr = array[v % base];
+		v /= base;
+	} while (v != 0);
 
 	if (sign)
 		*--ptr = sign;
@@ -122,19 +123,20 @@ char *convert_number(long int num, int base, int flags)
 }
 
 /**
- * _ func- replaces first instance of '#' with '\0'
- * buf: address of string to modify
+ * remove_comments - acomand line given to replaces first
+ * instance of '#' with '\0'
+ * @buf: address of buffer string to be modified in a memeory
  *
- * Return: 0;
+ * Return: 0 always
  */
 void remove_comments(char *buf)
 {
-	int i;
+	int j;
 
-	for (i = 0; buf[i] != '\0'; i++)
-		if (buf[i] == '#' && (!i || buf[i - 1] == ' '))
+	for (j = 0; buf[j] != '\0'; j++)
+		if (buf[j] == '#' && (!j || buf[j - 1] == ' '))
 		{
-			buf[i] = '\0';
+			buf[j] = '\0';
 			break;
 		}
 }

@@ -1,20 +1,21 @@
 #include "shell.h"
 
 /**
- * exits shell
- * info: Structure containing potential arguments. 
+ * _myexit - a command to exits shell
+ * @info: Structure that holds potential arguments
+ * and make it stay at cons
  * constant prototype.
- * Return: exits with given exit status
+ * Return: if exits with given exit status
  * (0) if info.argv[0] != "exit"
  */
 int _myexit(info_t *info)
 {
-	int exitcheck;
+	int exitcheckpoint;
 
-	if (info->argv[1]) /* If there is an exit arguement */
+	if (info->argv[1])
 	{
-		exitcheck = _erratoi(info->argv[1]);
-		if (exitcheck == -1)
+		exitcheckpoint = _erratoi(info->argv[1]);
+		if (exitcheckpoint == -1)
 		{
 			info->status = 2;
 			print_error(info, "Illegal number: ");
@@ -30,39 +31,40 @@ int _myexit(info_t *info)
 }
 
 /**
- * changes the current directory of the process
- * info: Structure containing potential arguments. Used to maintain
+ * _mycd - a command to changes the process of current directory
+ * @info: Structure that holds potential arguments.
+ * Used to keep
  * constant func prototype.
- * Return: Always 0
+ * Return: Always 0 on perfect
  */
 int _mycd(info_t *info)
 {
-	char *s, *dir, buffer[1024];
+	char *t, *dr, buff[1024];
 	int chdir_ret;
 
-	s = getcwd(buffer, 1024);
-	if (!s)
+	t = getcwd(buff, 1024);
+	if (!t)
 		_puts("TODO: >>getcwd failure emsg here<<\n");
 	if (!info->argv[1])
 	{
-		dir = _getenv(info, "HOME=");
-		if (!dir)
-			chdir_ret = /* TODO: what should this be? */
-				chdir((dir = _getenv(info, "PWD=")) ? dir : "/");
+		dr = _getenv(info, "HOME=");
+		if (!dr)
+			chdir_ret =
+				chdir((dr = _getenv(info, "PWD=")) ? dr : "/");
 		else
-			chdir_ret = chdir(dir);
+			chdir_ret = chdir(dr);
 	}
 	else if (_strcmp(info->argv[1], "-") == 0)
 	{
 		if (!_getenv(info, "OLDPWD="))
 		{
-			_puts(s);
+			_puts(t);
 			_putchar('\n');
 			return (1);
 		}
 		_puts(_getenv(info, "OLDPWD=")), _putchar('\n');
-		chdir_ret = /* TODO: what should this be? */
-			chdir((dir = _getenv(info, "OLDPWD=")) ? dir : "/");
+		chdir_ret =
+			chdir((dr = _getenv(info, "OLDPWD=")) ? dr : "/");
 	}
 	else
 		chdir_ret = chdir(info->argv[1]);
@@ -74,16 +76,16 @@ int _mycd(info_t *info)
 	else
 	{
 		_setenv(info, "OLDPWD", _getenv(info, "PWD="));
-		_setenv(info, "PWD", getcwd(buffer, 1024));
+		_setenv(info, "PWD", getcwd(buff, 1024));
 	}
 	return (0);
 }
 
 /**
- * changes current directory 
- * info: Structure containing potential arguments.
- * constant func prototype.
- * Return: 0
+ * _myhelp - acommand given to changes current directory
+ * @info: Structure holding potential arguments.
+ * AND keep constant func prototype.
+ * Return: 0 always on sucess
  */
 int _myhelp(info_t *info)
 {
@@ -92,6 +94,6 @@ int _myhelp(info_t *info)
 	arg_array = info->argv;
 	_puts("help call works. Function not yet implemented \n");
 	if (0)
-		_puts(*arg_array); /* temp att_unused workaround */
+		_puts(*arg_array);
 	return (0);
 }

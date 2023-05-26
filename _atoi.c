@@ -1,9 +1,10 @@
 #include "shell.h"
 
 /**
- * returns true if shell is interactive mode
- * @info: struct address
- * Return: 1 if interactive mode, 0 otherwise
+ * interactive - A func that return true if
+ * shell is interactive mode that we need
+ * @info: struct addressto input into theprogram
+ * Return: 1 if interactive mode, 0 otherwise or an error
  */
 int interactive(info_t *info)
 {
@@ -11,10 +12,11 @@ int interactive(info_t *info)
 }
 
 /**
- * checks if character is a delimeter
- * c: the char to check
- * delim: delimeter string
- * Return: 1 if true, 0 if false
+ * is_delim - a funciton to checks if char is a delimeter
+ * or not
+ * @c: the char to be inserted
+ * @delim: delimeter string inputed in a progr
+ * Return: 1 on success, 0 if fails
  */
 int is_delim(char c, char *delim)
 {
@@ -25,9 +27,10 @@ int is_delim(char c, char *delim)
 }
 
 /**
- * checks for alphabetic character
- * c: The character to input
- * Return: 1 if c is alphabetic, 0 otherwise
+ * _isalpha - A function to checks for alphabetic
+ * char inputed in aprogram
+ * @c: The character to input in a program
+ * Return: 1 if c is an alphabet, 0 otherwise or if not
  */
 
 int _isalpha(int c)
@@ -39,35 +42,37 @@ int _isalpha(int c)
 }
 
 /**
- * converts string to integer
- * s: converted string
- * Return: 0 if no numbers in string, converted number otherwise
+ * _atoi - A function to converts string to integer
+ * we have inserted in aprogram
+ * @s: converted string to integer
+ * Return: 0 if no numbers in string, otherwise
+ *
  */
 
 int _atoi(char *s)
 {
-	int i, sign = 1, flag = 0, output;
-	unsigned int result = 0;
+	int t, sign = 1, flag = 0, write;
+	unsigned int res = 0;
 
-	for (i = 0; s[i] != '\0' && flag != 2; i++)
+	for (t = 0; s[t] != '\0' && flag != 2; t++)
 	{
-		if (s[i] == '-')
+		if (s[t] == '-')
 			sign *= -1;
 
-		if (s[i] >= '0' && s[i] <= '9')
+		if (s[t] >= '0' && s[t] <= '9')
 		{
 			flag = 1;
-			result *= 10;
-			result += (s[i] - '0');
+			res *= 10;
+			res += (s[t] - '0');
 		}
 		else if (flag == 1)
 			flag = 2;
 	}
 
 	if (sign == -1)
-		output = -result;
+		write = -res;
 	else
-		output = result;
+		write = res;
 
-	return (output);
+	return (write);
 }

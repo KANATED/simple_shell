@@ -1,67 +1,67 @@
 #include "shell.h"
 
 /**
- **_func - copies string
- *dest: the destination string to be copied to
- *src:  source string
- *n: amount of characters to be copied
- *Return: concatenated string
+ * _strncpy - acommamd line given to copies string
+ * @dest: the destination string copied to be adrresed in
+ * @src:  source string of the program
+ * @n: amount of characters to be copied or inserted
+ * Return: concatenated string to be returned
  */
 char *_strncpy(char *dest, char *src, int n)
 {
-	int i, j;
-	char *s = dest;
+	int v, w;
+	char *d = dest;
 
-	i = 0;
-	while (src[i] != '\0' && i < n - 1)
+	v = 0;
+	while (src[v] != '\0' && v < n - 1)
 	{
-		dest[i] = src[i];
-		i++;
+		dest[v] = src[v];
+		v++;
 	}
-	if (i < n)
+	if (v < n)
 	{
-		j = i;
-		while (j < n)
+		w = v;
+		while (w < n)
 		{
-			dest[j] = '\0';
-			j++;
+			dest[w] = '\0';
+			w++;
 		}
 	}
-	return (s);
+	return (d);
 }
 
 /**
- **_func - concatenates two strings
- *dest: the first string
- *src: the second string
- *n: the amount of bytes to be maximally used
- *Return: concatenated string
+ * _strncat - a function to concatenates two strings
+ * @dest: the first string inputed
+ * @src: the second string to be inserted
+ * @n: the amount of bytes to be maximized
+ * Return: concatenated string to be returned
  */
 char *_strncat(char *dest, char *src, int n)
 {
-	int i, j;
-	char *s = dest;
+	int g, v;
+	char *d = dest;
 
-	i = 0;
-	j = 0;
-	while (dest[i] != '\0')
-		i++;
-	while (src[j] != '\0' && j < n)
+	g = 0;
+	v = 0;
+	while (dest[g] != '\0')
+		g++;
+	while (src[v] != '\0' && v < n)
 	{
-		dest[i] = src[j];
-		i++;
-		j++;
+		dest[g] = src[v];
+		g++;
+		v++;
 	}
-	if (j < n)
-		dest[i] = '\0';
-	return (s);
+	if (v < n)
+		dest[g] = '\0';
+	return (d);
 }
 
 /**
- **_func - locates a character in a string
- *s: string to be parsed
- *c: character to look for
- *Return: (s) pointer to the memory area s
+ * _strchr - Acommand line to locates a character in a string
+ * @s: string to be parsed through the program
+ * @c: character to look for concatenation
+ * Return: (s) pointer to the memory area s in memory adress
  */
 char *_strchr(char *s, char c)
 {

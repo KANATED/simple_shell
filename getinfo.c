@@ -1,8 +1,9 @@
 #include "shell.h"
 
 /**
- * _func - initializes info_t struct
- * info: struct address
+ * clear_info - Afunction to initializes info_t struct
+ * @info: struct address of an arguments used to
+ * keep function prototype cons
  */
 void clear_info(info_t *info)
 {
@@ -13,13 +14,14 @@ void clear_info(info_t *info)
 }
 
 /**
- * _func - initializes info_t struct
- * info: struct address
- * av: argument vector
+ * set_info - AFuction to initializes info_t struct
+ * @info: struct address of the arguments to store function
+ * prototype cons
+ * @av: argument vector of the program
  */
 void set_info(info_t *info, char **av)
 {
-	int i = 0;
+	int t = 0;
 
 	info->fname = av[0];
 	if (info->arg)
@@ -34,9 +36,8 @@ void set_info(info_t *info, char **av)
 				info->argv[1] = NULL;
 			}
 		}
-		for (i = 0; info->argv && info->argv[i]; i++)
-			;
-		info->argc = i;
+		for (t = 0; info->argv && info->argv[t]; t++)
+		info->argc = t;
 
 		replace_alias(info);
 		replace_vars(info);
@@ -44,9 +45,10 @@ void set_info(info_t *info, char **av)
 }
 
 /**
- * _func - frees info_t struct fields
- * info: struct address
- * all: true if freeing all fields
+ * free_info - a command line to frees info_t struct fields
+ * @info: struct address of the argumenst used tom keep func pro
+ * cons
+ * @all: true if freeing all the files info
  */
 void free_info(info_t *info, int all)
 {

@@ -1,9 +1,9 @@
 #include "shell.h"
 
 /**
- * _func - entry point
- * ac: arg count
- * av: arg vector
+ * main - a program to check the code inserted by user
+ * @ac: arg count inputed by user
+ * @av: arg vector inserted by user
  *
  * Return: 0 on success, 1 on error
  */

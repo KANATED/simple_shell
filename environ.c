@@ -1,8 +1,8 @@
 #include "shell.h"
 
 /**
- * _func-prints current environment
- * info: containing potential arguments. Used to maintain
+ * _myenv - afunction prototype of current environment
+ * @info: a structure that hold potential arg. Used to keep
  *          constant func prototype.
  * Return:  0
  */
@@ -13,32 +13,33 @@ int _myenv(info_t *info)
 }
 
 /**
- *  _func-gets the value of an environ variable
- * info: Structure containing potential arguments. Used to maintain
- * name: env var name
+ *  _getenv - a command line given the value of an environ variable
+ * @info: Structureholding potential args
+ * @name: env var name of the environ
  *
- * Return: value
+ * Return: value to be returned
  */
 char *_getenv(info_t *info, const char *name)
 {
 	list_t *node = info->env;
-	char *p;
+	char *v;
 
 	while (node)
 	{
-		p = starts_with(node->str, name);
-		if (p && *p)
-			return (p);
+		v = starts_with(node->str, name);
+		if (v && *v)
+			return (v);
 		node = node->next;
 	}
 	return (NULL);
 }
 
 /**
- * _func-Initialize new environment variable,
- * @info: Structure containing potential arguments. Used to maintain
+ * _mysetenv - func that Initialize new environment variable
+ * to be used
+ * @info: Struct holding potential arguments. Used to keep
  *        constant function prototype.
- *  Return: 0
+ *  Return: 0 on success
  */
 int _mysetenv(info_t *info)
 {
@@ -53,39 +54,39 @@ int _mysetenv(info_t *info)
 }
 
 /**
- * _func-Remove environment variable
- * info: containing potential arguments. Used to maintain
+ * _myunsetenv - a command linegiven to
+ * func Remove environment variable
+ * @info: a structure holding potential arguments. Used to keep
  *         func prototype.
- * Return:  0
+ * Return:  0 always
  */
 int _myunsetenv(info_t *info)
 {
-	int i;
+	int j;
 
 	if (info->argc == 1)
 	{
 		_eputs("Too few arguements.\n");
 		return (1);
 	}
-	for (i = 1; i <= info->argc; i++)
-		_unsetenv(info, info->argv[i]);
+	for (j = 1; j <= info->argc; j++)
+		_unsetenv(info, info->argv[j]);
 
 	return (0);
 }
-
 /**
- * _func-populates env linked list
- * info: Structure containing potential arguments. Used to maintain
+ * populate_env_list - a command line func populates env linked list
+ * @info: Structure contain potential arguments. Used to keep
  *           func prototype.
- * Return:  0
+ * Return: always 0
  */
 int populate_env_list(info_t *info)
 {
 	list_t *node = NULL;
-	size_t i;
+	size_t j;
 
-	for (i = 0; environ[i]; i++)
-		add_node_end(&node, environ[i], 0);
+	for (j = 0; environ[j]; j++)
+		add_node_end(&node, environ[j], 0);
 	info->env = node;
 	return (0);
 }

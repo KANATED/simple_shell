@@ -1,34 +1,36 @@
 #include "shell.h"
 
 /**
- * _func - gets the history file
- * info: parameter structure
+ * get_history_file - Afunction to gets the history file
+ * @info: parameter structure of the arguments used
+ * to keep func prototype cons
  *
- * Return: allocated string containg history file
+ * Return: allocated string holds history file
  */
 
 char *get_history_file(info_t *info)
 {
-	char *buf, *dir;
+	char *buffer, *dr;
 
-	dir = _getenv(info, "HOME=");
-	if (!dir)
+	dr = _getenv(info, "HOME=");
+	if (!dr)
 		return (NULL);
-	buf = malloc(sizeof(char) * (_strlen(dir) + _strlen(HIST_FILE) + 2));
-	if (!buf)
+	buffer = malloc(sizeof(char) * (_strlen(dr) + _strlen(HIST_FILE) + 2));
+	if (!buffer)
 		return (NULL);
-	buf[0] = 0;
-	_strcpy(buf, dir);
-	_strcat(buf, "/");
-	_strcat(buf, HIST_FILE);
-	return (buf);
+	buffer[0] = 0;
+	_strcpy(buffer, dr);
+	_strcat(buffer, "/");
+	_strcat(buffer, HIST_FILE);
+	return (buffer);
 }
 
 /**
- * write_history - creates a file, or appends to an existing file
- * info: the parameter structure
+ * write_history - acommand line given to creates a file,
+ * or appends to an existing file
+ * @info: the parameter structure of the function used
  *
- * Return: 1 on success, else -1
+ * Return: 1 on success, else -1 on annerrno
  */
 int write_history(info_t *info)
 {
@@ -54,14 +56,15 @@ int write_history(info_t *info)
 }
 
 /**
- * _func - reads history from file
- * info: the parameter struct
+ * read_history - Acommand line that reads history from file
+ * @info: the parameter structure of the arguments that hold
+ * func prototype cons
  *
- * Return: histcount on success, 0 otherwise
+ * Return: histcount 0 otherwise no
  */
 int read_history(info_t *info)
 {
-	int i, last = 0, linecount = 0;
+	int j, last = 0, linecount = 0;
 	ssize_t fd, rdlen, fsize = 0;
 	struct stat st;
 	char *buf = NULL, *filename = get_history_file(info);
@@ -85,14 +88,14 @@ int read_history(info_t *info)
 	if (rdlen <= 0)
 		return (free(buf), 0);
 	close(fd);
-	for (i = 0; i < fsize; i++)
-		if (buf[i] == '\n')
+	for (j = 0; j < fsize; j++)
+		if (buf[j] == '\n')
 		{
-			buf[i] = 0;
+			buf[j] = 0;
 			build_history_list(info, buf + last, linecount++);
-			last = i + 1;
+			last = j + 1;
 		}
-	if (last != i)
+	if (last != j)
 		build_history_list(info, buf + last, linecount++);
 	free(buf);
 	info->histcount = linecount;
@@ -103,12 +106,13 @@ int read_history(info_t *info)
 }
 
 /**
- * _func - adds entry to a history linked list
- * info: Structure containing potential arguments. Used to maintain
- * buf: buffer
- * linecount: the history linecount, histcount
+ * build_history_list - adds entry to a history linked list
+ * @info: Structurethat holds potential arguments. Used to keep
+ * func prototype cons
+ * @buf: buffer adress of the func
+ * @linecount: the history linecount of the insrted args
  *
- * Return: 0
+ * Return: 0 on sucess
  */
 int build_history_list(info_t *info, char *buf, int linecount)
 {
@@ -124,19 +128,22 @@ int build_history_list(info_t *info, char *buf, int linecount)
 }
 
 /**
- * _func - renumbers the history linked list after changes
- * info: Structure containing potential arguments. Used to maintain
- * Return: the new histcount
+ * renumber_history - acommand line renumbers used to link
+ * history after changes
+ * you did
+ * @info: Structure that holds potential arguments. Used to keep func
+ * prototype cons
+ * Return: the new histcount to be returned
  */
 int renumber_history(info_t *info)
 {
 	list_t *node = info->history;
-	int i = 0;
+	int v = 0;
 
 	while (node)
 	{
-		node->num = i++;
+		node->num = v++;
 		node = node->next;
 	}
-	return (info->histcount = i);
+	return (info->histcount = v);
 }

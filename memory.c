@@ -1,10 +1,11 @@
 #include "shell.h"
 
 /**
- *_func- frees a pointer and NULLs the address
- * ptr: address of the pointer to free
+ * bfree - a program to frees a pointer and NULLs the address
+ * of the user
+ * @ptr: address of the pointer to free by user comand
  *
- * Return: 1 if freed, otherwise 0.
+ * Return: 1 if freed, otherwise 0on an error
  */
 int bfree(void **ptr)
 {

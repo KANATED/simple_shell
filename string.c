@@ -1,27 +1,28 @@
 #include "shell.h"
 
 /**
- * _func - returns the length of a string
- * s: the string whose length to check
+ * _strlen - afunction that returns the length of a string
+ * @s: the string whose length to checked by user
  *
- * Return: integer length of string
+ * Return: integer length of string as result
  */
 int _strlen(char *s)
 {
-	int i = 0;
+	int t = 0;
 
 	if (!s)
 		return (0);
 
 	while (*s++)
-		i++;
-	return (i);
+		t++;
+	return (t);
 }
 
 /**
- * _func- performs lexicogarphic comparison of two strangs.
- * s1: the first strang
- * s2: the second strang
+ * _strcmp - a program given to performs lexicogarphic
+ * comparison of two strangs.
+ * @s1: the first strang inputed
+ * @s2: the second strang isnerted
  *
  * Return: negative if s1 < s2, positive if s1 > s2, zero if s1 == s2
  */
@@ -41,11 +42,13 @@ int _strcmp(char *s1, char *s2)
 }
 
 /**
- * _func - checks if needle starts with haystack
- * haystack: string to search
- * needle: the substring to find
+ * starts_with - aprogram to checks if needle starts
+ * with haystack
+ * and checks it by user command
+ * @haystack: string to search for the coma
+ * @needle: the substring to find where to start
  *
- * Return: address of next char of haystack or NULL
+ * Return: address of next character of haystack or NULL
  */
 char *starts_with(const char *haystack, const char *needle)
 {
@@ -56,11 +59,11 @@ char *starts_with(const char *haystack, const char *needle)
 }
 
 /**
- * _func - concatenates two strings
- * dest: the destination buffer
- * src: the source buffer
+ * _strcat - aprogram to concatenates two string by user input
+ * @dest: the destination buffer of the poitered string
+ * @src: the source buffer of the program
  *
- * Return: pointer to destination buffer
+ * Return: pointer to destination buffer of the program
  */
 char *_strcat(char *dest, char *src)
 {

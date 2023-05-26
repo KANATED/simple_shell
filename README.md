@@ -1,2 +1,4 @@
-SIMPLE SHELL
-git clone https://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@github.com/KANATED/simple_shell.git
+0x16. C - Simple Shell
+
+this project has done by Benjamin and Ande
+ you are not allowed to copy or modify anything
