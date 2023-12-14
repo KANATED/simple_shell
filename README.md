@@ -1,0 +1,1 @@
+ Linux shell is a command-line interface (CLI) that allows users to interact with the operating system by typing commands. It's a text-based interface where users can input commands, and the shell interprets these commands to perform various tasks.
