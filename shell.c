@@ -1,12 +1,9 @@
-#include <stdio.h>
+#include "shell.h"
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <sys/wait.h>
 #include <signal.h>
-#include "shell.h"
-
-#define MAX_ARGS 32
 
 /**
  * display_error - Display error messages with program name
@@ -29,10 +26,10 @@ void sigint_handler(int signum)
 }
 
 /**
- * main - Entry point
+ * execute_shell - Main function to execute the shell
  * Return: Always 0
  */
-int main(void)
+int execute_shell(void)
 {
     char input[1024];
     char *program_name = "hsh"; /* Change this to match your program name */
@@ -119,5 +116,5 @@ int main(void)
         }
     }
 
-    return (0);
+    return 0;
 }
