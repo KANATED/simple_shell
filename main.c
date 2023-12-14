@@ -5,6 +5,8 @@
 #include <sys/wait.h>
 #include <signal.h>
 
+#define MAX_ARGS 32
+
 /**
  * display_error - Display error messages with program name
  * @program: Program name
@@ -12,7 +14,7 @@
  */
 void display_error(const char *program, const char *message)
 {
-	fprintf(stderr, "%s: %s\n", program, message);
+    fprintf(stderr, "%s: %s\n", program, message);
 }
 
 /**
@@ -21,8 +23,8 @@ void display_error(const char *program, const char *message)
  */
 void sigint_handler(int signum)
 {
-	(void)signum;
-	printf("\n");
+    (void)signum;
+    printf("\n");
 }
 
 /**
@@ -31,84 +33,90 @@ void sigint_handler(int signum)
  */
 int main(void)
 {
-	char input[1024];
-	char *program_name = "hsh"; /* Change this to match your program name */
-	char current_directory[1024];
-	size_t len;
+    char input[1024];
+    char *program_name = "hsh"; /* Change this to match your program name */
+    char current_directory[1024];
+    size_t len;
 
-	getcwd(current_directory, sizeof(current_directory));
+    getcwd(current_directory, sizeof(current_directory));
 
-	/* Set up Ctrl+C handler */
-	signal(SIGINT, sigint_handler);
+    signal(SIGINT, sigint_handler);
 
-	while (1)
-	{
-		printf("%s$ ", current_directory);
+    while (1)
+    {
+        printf("%s$ ", current_directory);
 
-		if (fgets(input, sizeof(input), stdin) == NULL)
-		{
-			perror("fgets");
-			continue;
-		}
+        if (fgets(input, sizeof(input), stdin) == NULL)
+        {
+            perror("fgets");
+            continue;
+        }
 
-		/* Remove the newline character */
-		len = strlen(input);
-		if (len > 0 && input[len - 1] == '\n')
-		{
-			input[len - 1] = '\0';
-		}
+        len = strlen(input);
+        if (len > 0 && input[len - 1] == '\n')
+        {
+            input[len - 1] = '\0';
+        }
+        else
+        {
+            display_error(program_name, "Input too long");
+            continue;
+        }
 
-		/* Handle commands */
-		if (strcmp(input, "exit") == 0)
-		{
-			break;
-		}
-		else if (strncmp(input, "cd ", 3) == 0)
-		{
-			char *directory = input + 3;
-			if (chdir(directory) == 0)
-			{
-				getcwd(current_directory, sizeof(current_directory));
-			}
-			else
-			{
-				display_error(program_name, "cd: No such file or directory");
-			}
-		}
-		else
-		{
-			pid_t pid = fork();
-			if (pid == 0)
-			{
-				/* Child process */
-				char *args[32];
-				char *token = strtok(input, " ");
-				int arg_count = 0;
+        if (strcmp(input, "exit") == 0)
+        {
+            break;
+        }
+        else if (strncmp(input, "cd ", 3) == 0)
+        {
+            char *directory = input + 3;
+            if (chdir(directory) == 0)
+            {
+                getcwd(current_directory, sizeof(current_directory));
+            }
+            else
+            {
+                perror("chdir");
+                display_error(program_name, "cd: No such file or directory");
+            }
+        }
+        else
+        {
+            pid_t pid = fork();
+            if (pid == 0)
+            {
+                char *args[MAX_ARGS];
+                char *token = strtok(input, " ");
+                int arg_count = 0;
 
-				while (token != NULL)
-				{
-					args[arg_count] = token;
-					arg_count++;
-					token = strtok(NULL, " ");
-				}
-				args[arg_count] = NULL;
+                while (token != NULL)
+                {
+                    args[arg_count] = token;
+                    arg_count++;
+                    token = strtok(NULL, " ");
+                }
+                args[arg_count] = NULL;
 
-				/* Execute using PATH or absolute path */
-				execvp(args[0], args);
-				display_error(program_name, "exec: Command not found");
-				exit(EXIT_FAILURE);
-			}
-			else if (pid > 0)
-			{
-				/* Parent process */
-				int status;
-				waitpid(pid, &status, 0);
-			}
-			else
-			{
-				perror("fork");
-			}
-		}
-	}
-	return (0);
+                execvp(args[0], args);
+                perror("execvp");
+                display_error(program_name, "exec: Command not found");
+                exit(EXIT_FAILURE);
+            }
+            else if (pid > 0)
+            {
+                int status;
+                if (waitpid(pid, &status, 0) == -1)
+                {
+                    perror("waitpid");
+                    /* Handle error */
+                }
+            }
+            else
+            {
+                perror("fork");
+            }
+        }
+    }
+
+    return (0);
 }
