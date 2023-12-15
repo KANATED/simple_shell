@@ -1,122 +1,41 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <signal.h>
-
-#define MAX_ARGS 32
+#include "common_functions.h"
+#include "parser.h"
+#include "executor.h"
 
 /**
- * display_error - Display error messages with program name
- * @program: Program name
- * @message: Error message
+ * main - Entry point of the simple shell program.
+ * Return: Always 0.
  */
-void display_error(const char *program, const char *message)
-{
-    fprintf(stderr, "%s: %s\n", program, message);
-}
+int main(void) {
+    char *input = NULL;
+    size_t len = 0;
 
-/**
- * sigint_handler - Handle Ctrl+C signal
- * @signum: Signal number
- */
-void sigint_handler(int signum)
-{
-    (void)signum;
-    printf("\n");
-}
+    while (1) {
+        /* Print the shell prompt */
+        print_prompt();
 
-/**
- * main - Entry point
- * Return: Always 0
- */
-int main(void)
-{
-    char input[1024];
-    char *program_name = "hsh"; /* Change this to match your program name */
-    char current_directory[1024];
-    size_t len;
-
-    getcwd(current_directory, sizeof(current_directory));
-
-    signal(SIGINT, sigint_handler);
-
-    while (1)
-    {
-        printf("%s$ ", current_directory);
-
-        if (fgets(input, sizeof(input), stdin) == NULL)
-        {
-            perror("fgets");
-            continue;
+        /* Read user input */
+        if (getline(&input, &len, stdin) == -1) {
+            handle_eof(input);
         }
 
-        len = strlen(input);
-        if (len > 0 && input[len - 1] == '\n')
-        {
-            input[len - 1] = '\0';
-        }
-        else
-        {
-            display_error(program_name, "Input too long");
-            continue;
+        /* Remove newline character from input */
+        input[strcspn(input, "\n")] = '\0';
+
+        /* Check for exit command */
+        if (is_exit_command(input)) {
+            free(input);
+            exit(EXIT_SUCCESS);
         }
 
-        if (strcmp(input, "exit") == 0)
-        {
-            break;
-        }
-        else if (strncmp(input, "cd ", 3) == 0)
-        {
-            char *directory = input + 3;
-            if (chdir(directory) == 0)
-            {
-                getcwd(current_directory, sizeof(current_directory));
-            }
-            else
-            {
-                perror("chdir");
-                display_error(program_name, "cd: No such file or directory");
-            }
-        }
-        else
-        {
-            pid_t pid = fork();
-            if (pid == 0)
-            {
-                char *args[MAX_ARGS];
-                char *token = strtok(input, " ");
-                int arg_count = 0;
+        /* Parse and execute the command */
+        char **args = parse_input(input);
+        execute_command(args);
 
-                while (token != NULL)
-                {
-                    args[arg_count] = token;
-                    arg_count++;
-                    token = strtok(NULL, " ");
-                }
-                args[arg_count] = NULL;
-
-                execvp(args[0], args);
-                perror("execvp");
-                display_error(program_name, "exec: Command not found");
-                exit(EXIT_FAILURE);
-            }
-            else if (pid > 0)
-            {
-                int status;
-                if (waitpid(pid, &status, 0) == -1)
-                {
-                    perror("waitpid");
-                    /* Handle error */
-                }
-            }
-            else
-            {
-                perror("fork");
-            }
-        }
+        /* Free allocated memory */
+        free(input);
+        free(args);
     }
 
-    return (0);
+    return 0;
 }
