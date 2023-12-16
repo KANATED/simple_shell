@@ -12,6 +12,8 @@ int main(int argc, char **argv) {
     char **commands;
     char **args;
 
+    int i;  /* Declare i outside the for loop */
+
     if (argc > 2) {
         fprintf(stderr, "Usage: %s [filename]\n", argv[0]);
         return 1;
@@ -28,7 +30,7 @@ int main(int argc, char **argv) {
         while ((getline(&line, &len, file)) != -1) {
             commands = parse_input(line);
 
-            for (int i = 0; commands[i] != NULL; i++) {
+            for (i = 0; commands[i] != NULL; i++) {
                 args = parse_input(commands[i]);
                 execute_command(args);
                 free(args);
@@ -46,7 +48,7 @@ int main(int argc, char **argv) {
     while ((my_getline(&line, &len)) != -1) {
         commands = parse_input(line);
 
-        for (int i = 0; commands[i] != NULL; i++) {
+        for (i = 0; commands[i] != NULL; i++) {
             args = parse_input(commands[i]);
             execute_command(args);
             free(args);

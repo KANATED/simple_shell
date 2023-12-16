@@ -8,15 +8,24 @@
 char **parse_input(char *input) {
     char **tokens;
     char *token;
-    int token_count = 0;
+    char *temp_input;  /* Declare temp_input at the beginning */
+    char *temp_token;  /* Declare temp_token at the beginning */
+
+    int token_count = 0;  /* Initialize token_count here */
+    int i;  /* Declare i at the beginning */
 
     if (input == NULL) {
         return NULL;
     }
 
     /* Count the number of tokens (excluding comments) */
-    char *temp_input = strdup(input);
-    char *temp_token = strtok(temp_input, " \t\n");
+    temp_input = strdup(input);  /* Move the declaration to here */
+    if (temp_input == NULL) {
+        perror("strdup");
+        exit_with_status(1);
+    }
+
+    temp_token = strtok(temp_input, " \t\n");  /* Move the declaration to here */
     while (temp_token != NULL) {
         if (temp_token[0] == '#') {
             break;  /* Ignore everything after # */
@@ -32,8 +41,7 @@ char **parse_input(char *input) {
         exit_with_status(1);
     }
 
-    token = strtok(input, " \t\n");
-    for (int i = 0; i < token_count; i++) {
+    for (i = 0, token = strtok(input, " \t\n"); i < token_count; i++, token = strtok(NULL, " \t\n")) {
         if (token[0] == '#') {
             break;  /* Ignore everything after # */
         }
@@ -42,7 +50,6 @@ char **parse_input(char *input) {
             perror("strdup");
             exit_with_status(1);
         }
-        token = strtok(NULL, " \t\n");
     }
 
     tokens[token_count] = NULL;

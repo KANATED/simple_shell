@@ -16,7 +16,7 @@ ssize_t my_getline(char **lineptr, size_t *n) {
     *lineptr = realloc(*lineptr, *n);
 
     while (1) {
-        if (buffer_index >= buffer_size) {
+        if ((size_t)buffer_index >= (size_t)buffer_size) {
             buffer_size = read(STDIN_FILENO, buffer, BUFFER_SIZE);
 
             if (buffer_size <= 0) {
@@ -29,7 +29,7 @@ ssize_t my_getline(char **lineptr, size_t *n) {
             buffer_index = 0;
         }
 
-        while (buffer_index < buffer_size) {
+        while ((size_t)buffer_index < (size_t)buffer_size) {
             (*lineptr)[chars_read] = buffer[buffer_index];
 
             if (buffer[buffer_index] == '\n') {
@@ -41,13 +41,13 @@ ssize_t my_getline(char **lineptr, size_t *n) {
             chars_read++;
             buffer_index++;
 
-            if (chars_read >= *n) {
+            if ((size_t)chars_read >= *n) {
                 *n *= 2;
                 *lineptr = realloc(*lineptr, *n);
             }
         }
 
-        if (buffer_index >= buffer_size) {
+        if ((size_t)buffer_index >= (size_t)buffer_size) {
             break;
         }
     }

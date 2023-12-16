@@ -7,7 +7,6 @@
  */
 char *find_full_path(char *command) {
     char *path;
-    char *token;
     char *full_path;
     char **directories;
     int i;

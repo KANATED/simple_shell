@@ -1,6 +1,8 @@
 #include "common_functions.h"
-#include "path.c"
-#include "builtins.c"
+
+extern int last_status;
+
+int last_status = 0;
 
 /**
  * replace_variables - Replaces variables in the command arguments.
@@ -10,6 +12,7 @@
 char **replace_variables(char **args) {
     char **new_args;
     int arg_count = 0;
+    int i;
 
     while (args[arg_count] != NULL) {
         arg_count++;
@@ -21,13 +24,13 @@ char **replace_variables(char **args) {
         exit_with_status(1);
     }
 
-    for (int i = 0; i < arg_count; i++) {
+    for (i = 0; i < arg_count; i++) {
         if (strcmp(args[i], "$?") == 0) {
-            char status_str[4];  // Assuming status can be represented in 3 digits
+            char status_str[4];  /* Assuming status can be represented in 3 digits */
             sprintf(status_str, "%d", last_status);
             new_args[i] = strdup(status_str);
         } else if (strcmp(args[i], "$$") == 0) {
-            char pid_str[16];  // Assuming pid can be represented in 15 digits
+            char pid_str[16];  /* Assuming pid can be represented in 15 digits */
             sprintf(pid_str, "%d", getpid());
             new_args[i] = strdup(pid_str);
         } else {

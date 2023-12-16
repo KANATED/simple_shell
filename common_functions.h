@@ -17,6 +17,7 @@ void handle_eof(char *input);
 int is_exit_command(char *input);
 char **parse_input(char *input);
 char *find_full_path(char *command);
+extern int last_status;
 void execute_command(char **args);
 int is_builtin(char *command);
 void execute_builtin(char *command);
